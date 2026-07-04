@@ -268,69 +268,6 @@
     letter-spacing:2px;
   }
 
-  .timer-box{
-    margin-top:22px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-    background:var(--bg-1);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:14px 16px;
-  }
-  .timer-label{
-    font-size:11px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--text-low);
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .timer-tag{
-    font-size:9px;
-    letter-spacing:1px;
-    color:var(--purple-bright);
-    border:1px solid var(--purple-deep);
-    border-radius:6px;
-    padding:1px 5px;
-  }
-  .timer-display{
-    font-family:'Orbitron',sans-serif;
-    font-weight:800;
-    font-size:26px;
-    color:var(--text-hi);
-  }
-  .timer-btns{
-    display:flex;
-    gap:8px;
-  }
-  .timer-btn{
-    font-family:'Rajdhani',sans-serif;
-    font-weight:600;
-    font-size:12px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:6px 12px;
-    border-radius:9px;
-    border:1px solid var(--purple-deep);
-    background:var(--bg-2);
-    color:var(--text-mid);
-    cursor:pointer;
-    transition:.15s;
-  }
-  .timer-btn:hover{
-    background:linear-gradient(135deg,var(--purple),var(--magenta));
-    color:#fff;
-    border-color:transparent;
-  }
-  .timer-btn.active{
-    background:linear-gradient(135deg,var(--purple),var(--magenta));
-    color:#fff;
-    border-color:transparent;
-  }
-
   /* ---------- Bottom controls ---------- */
   .bottom-controls{
     display:flex;
@@ -463,14 +400,6 @@
       </svg>
       <div class="vs-text">VS</div>
 
-      <div class="timer-box">
-        <div class="timer-label">cronômetro <span class="timer-tag">opcional</span></div>
-        <div class="timer-display" id="timerDisplay">00:00</div>
-        <div class="timer-btns">
-          <button class="timer-btn" id="timerStart">iniciar</button>
-          <button class="timer-btn" id="timerReset">zerar</button>
-        </div>
-      </div>
     </div>
 
     <div class="player" id="player2">
@@ -591,7 +520,6 @@
       playerEl[p].classList.remove('winner');
     }
     overlay.classList.remove('show');
-    if(typeof resetTimer === 'function') resetTimer();
   }
 
   document.querySelectorAll('.pt-btn').forEach(btn => {
@@ -615,55 +543,6 @@
     if(v < 1){ v = 1; }
     state.target = v;
   });
-
-  // Cronômetro opcional
-  let timerSeconds = 0;
-  let timerInterval = null;
-  let timerRunning = false;
-
-  const timerDisplay = document.getElementById('timerDisplay');
-  const timerStartBtn = document.getElementById('timerStart');
-  const timerResetBtn = document.getElementById('timerReset');
-  const vsSpin = document.getElementById('vsSpin');
-
-  function formatTime(total){
-    const m = Math.floor(total / 60).toString().padStart(2, '0');
-    const s = (total % 60).toString().padStart(2, '0');
-    return m + ':' + s;
-  }
-
-  function tickTimer(){
-    timerSeconds++;
-    timerDisplay.textContent = formatTime(timerSeconds);
-  }
-
-  function startTimer(){
-    timerRunning = true;
-    timerStartBtn.textContent = 'pausar';
-    timerStartBtn.classList.add('active');
-    vsSpin.style.animationPlayState = 'running';
-    timerInterval = setInterval(tickTimer, 1000);
-  }
-
-  function pauseTimer(){
-    timerRunning = false;
-    timerStartBtn.textContent = 'iniciar';
-    timerStartBtn.classList.remove('active');
-    clearInterval(timerInterval);
-  }
-
-  function resetTimer(){
-    pauseTimer();
-    timerSeconds = 0;
-    timerDisplay.textContent = formatTime(0);
-  }
-
-  timerStartBtn.addEventListener('click', () => {
-    if(timerRunning) pauseTimer();
-    else startTimer();
-  });
-
-  timerResetBtn.addEventListener('click', resetTimer);
 </script>
 
 </body>
